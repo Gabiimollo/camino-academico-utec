@@ -1,0 +1,524 @@
+<title>Acadelime</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Lexend:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;
+  --lime-500:#B5D334;--lime-300:#D4EE4E;--lime-100:#E8F5B0;--lime-700:#5C7A0A;--lime-text:#5C7A0A;
+  --ink-900:#1B2B1E;--ink-500:#5D6B4F;--text:#1B2B1E;--text-2:#5D6B4F;
+  --line:#DCE3C4;--trail:#DCE3C4;--locked-bg:#E6EAD9;--locked-fg:#8A9479;--locked-label:#7C866D;
+  --paper:#FBFCF2;--surface:#FFFFFF;--bar:#1B2B1E;--bar-line:transparent;
+  --accent:#6B4EFF;--accent-text:#6B4EFF;--accent-50:#EDE9FF;--accent-800:#3B2A99;
+  --info-bg:#E6F0FB;--info-fg:#174A87;--ok-bg:#E8F5B0;--ok-fg:#3A4A10;--bad-bg:#FDE8E6;--bad-fg:#9B2A20;
+  --warn-bg:#FEF3C7;--warn-fg:#8A4B06;--neutral-bg:#EDEFE6;--neutral-fg:#3B4A3C;
+  --danger:#C2362B;--on-danger:#FFFFFF;--emph-bg:#1B2B1E;--emph-fg:#D4EE4E;--sec-border:#1B2B1E;
+  --page:#E9EDDD;
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --lime-text:#D4EE4E;--text:#EEF3E2;--text-2:#A9B59A;--ink-500:#A9B59A;
+  --line:#34443A;--trail:#3F5144;--locked-bg:#26322A;--locked-fg:#7E8A72;--locked-label:#8E9A82;
+  --paper:#111A13;--surface:#1A251C;--bar:#0A110B;--bar-line:#34443A;
+  --accent-text:#A898FF;--accent-50:#2A2350;--accent-800:#C9BFFF;
+  --info-bg:#13304F;--info-fg:#9CC7F5;--ok-bg:#33410F;--ok-fg:#E0F29A;--bad-bg:#4A1A16;--bad-fg:#F5ABA3;
+  --warn-bg:#4A3208;--warn-fg:#F8CF7A;--neutral-bg:#26322A;--neutral-fg:#B8C2A8;
+  --danger:#E5544A;--on-danger:#1B0B09;--emph-bg:#D4EE4E;--emph-fg:#1B2B1E;--sec-border:#EEF3E2;
+  --page:#070C08;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--page);font-family:Lexend,system-ui,sans-serif;color:var(--text);display:flex;justify-content:center;align-items:center;padding-block:24px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));box-sizing:border-box}
+h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;margin:0}
+button{font-family:inherit;cursor:pointer}
+.phone{width:390px;height:min(820px,100%);min-width:0;background:var(--paper);border-radius:40px;border:10px solid #0A110B;overflow:hidden;display:flex;flex-direction:column;position:relative;flex-shrink:0}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden}
+.top{background:var(--bar);border-bottom:1px solid var(--bar-line);color:var(--lime-300);display:flex;align-items:center;gap:8px;padding:14px 14px 12px}
+.logo{display:flex;align-items:center;gap:6px;font-family:'Bricolage Grotesque';font-weight:700;font-size:17px;color:var(--lime-300)}
+.pill{white-space:nowrap;display:inline-flex;align-items:center;gap:3px;font-size:12px;padding:4px 8px;border-radius:999px;background:#2E4231;color:#E8F5B0}
+.org{font-size:11px;background:#2E4231;color:#E8F5B0;padding:4px 8px;border-radius:6px;font-weight:500}
+.iconbtn{background:none;border:none;color:inherit;font-size:20px;padding:4px;position:relative;line-height:1}
+.dot{position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--lime-300);border:2px solid var(--bar)}
+.tabs{display:flex;border-top:1px solid var(--line);background:var(--surface)}
+.tabs button{flex:1;background:none;border:none;padding:10px 0 14px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--text-2)}
+.tabs button i{font-size:22px}
+.tabs button.on{color:var(--text);font-weight:500}
+.tabs button.on i{background:var(--lime-500);color:var(--ink-900);border-radius:10px;padding:2px 14px}
+.pad{padding:16px}
+.head{display:flex;align-items:center;gap:8px;padding:14px 12px;border-bottom:1px solid var(--line);background:var(--surface)}
+.head h2{font-size:17px;flex:1}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.muted{color:var(--text-2);font-size:13px}
+.small{font-size:12px}
+.chip{display:inline-block;font-size:12px;padding:3px 9px;border-radius:6px;font-weight:500}
+.c-info{background:var(--info-bg);color:var(--info-fg)}.c-ok{background:var(--ok-bg);color:var(--ok-fg)}.c-bad{background:var(--bad-bg);color:var(--bad-fg)}
+.c-warn{background:var(--warn-bg);color:var(--warn-fg)}.c-neu{background:var(--neutral-bg);color:var(--neutral-fg)}.c-acc{background:var(--accent-50);color:var(--accent-800)}
+.btn{border:none;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:500;width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+.b-pri{background:var(--lime-500);color:#1B2B1E}.b-emp{background:var(--emph-bg);color:var(--emph-fg)}
+.b-sec{background:transparent;color:var(--text);border:1.5px solid var(--sec-border)}.b-gho{background:transparent;color:var(--lime-text)}
+.b-dan{background:var(--danger);color:var(--on-danger)}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:500;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font-family:inherit;font-size:15px}
+.seg{display:flex;background:var(--locked-bg);border-radius:12px;padding:4px;gap:4px;margin-bottom:14px}
+.seg button{flex:1;border:none;background:none;padding:8px 4px;border-radius:9px;font-size:13px;color:var(--text-2)}
+.seg button.on{background:var(--surface);color:var(--text);font-weight:500}
+.bh{margin:16px 16px 0;background:var(--lime-500);color:#1B2B1E;border-radius:16px;padding:12px 14px;position:sticky;top:0;z-index:5}
+.bh.lock{background:var(--locked-bg);color:var(--text-2)}
+.path{position:relative}
+.node{position:absolute;width:60px;height:60px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:24px;border:none;z-index:2}
+.halo{position:absolute;width:80px;height:80px;border-radius:24px;background:var(--lime-300);z-index:1}
+.nl{position:absolute;font-size:12px;line-height:1.3;width:120px;z-index:2}
+.nl b{display:block;font-weight:500;font-size:11px;color:var(--text-2)}
+.prog{height:10px;background:var(--locked-bg);border-radius:999px;overflow:hidden;flex:1}
+.prog span{display:block;height:100%;background:var(--lime-500);border-radius:999px}
+.opt{display:block;width:100%;text-align:left;padding:14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font-size:15px;margin-bottom:10px}
+.opt.sel{border-color:var(--sec-border);border-width:2px}
+.opt.good{background:var(--ok-bg);border-color:var(--lime-500);color:var(--ok-fg)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--danger);color:var(--bad-fg)}
+.big{width:96px;height:96px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:48px;margin:24px auto 16px}
+.center{text-align:center}
+.list button,.listitem{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;border-bottom:1px solid var(--line);padding:14px 0;color:var(--text);font-size:15px;text-align:left}
+.ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.days{display:flex;gap:6px;margin-bottom:16px}
+.days div{flex:1;text-align:center;padding:8px 0;border-radius:12px;font-size:12px;color:var(--text-2);background:var(--surface);border:1px solid var(--line)}
+.days div b{display:block;font-size:16px;color:var(--text);font-family:'Bricolage Grotesque'}
+.days div.on{background:var(--lime-500);border-color:var(--lime-500);color:#3A4A10}.days div.on b{color:#1B2B1E}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:22px;text-align:center;color:var(--text-2);font-size:13px;margin-bottom:12px}
+.cam{background:#0A110B;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#EEF3E2;gap:18px;padding:24px}
+.frame{width:230px;height:230px;border:4px solid var(--lime-300);border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:64px;color:#34443A}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.check input{width:20px;height:20px;accent-color:#5C7A0A;margin-top:1px}
+.cert{background:#FFFFFF;color:#1B2B1E;border:1px solid #DCE3C4;border-radius:16px;padding:26px 18px;text-align:center}
+.orglogo{display:inline-block;font-family:'Bricolage Grotesque';font-weight:700;font-size:26px;border:3px solid #1B2B1E;padding:2px 16px;border-radius:8px}
+.toast{position:absolute;left:16px;right:16px;bottom:84px;background:var(--emph-bg);color:var(--emph-fg);padding:12px 14px;border-radius:12px;font-size:14px;z-index:20;display:none}
+@media (max-width:500px){body{padding:0}.phone{border:none;border-radius:0;width:100%;height:100%}}
+
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --lime-text:#D4EE4E;--text:#EEF3E2;--text-2:#A9B59A;--ink-500:#A9B59A;
+  --line:#34443A;--trail:#3F5144;--locked-bg:#26322A;--locked-fg:#7E8A72;--locked-label:#8E9A82;
+  --paper:#111A13;--surface:#1A251C;--bar:#0A110B;--bar-line:#34443A;
+  --accent-text:#A898FF;--accent-50:#2A2350;--accent-800:#C9BFFF;
+  --info-bg:#13304F;--info-fg:#9CC7F5;--ok-bg:#33410F;--ok-fg:#E0F29A;--bad-bg:#4A1A16;--bad-fg:#F5ABA3;
+  --warn-bg:#4A3208;--warn-fg:#F8CF7A;--neutral-bg:#26322A;--neutral-fg:#B8C2A8;
+  --danger:#E5544A;--on-danger:#1B0B09;--emph-bg:#D4EE4E;--emph-fg:#1B2B1E;--sec-border:#EEF3E2;
+  --page:#070C08;
+}}
+i.ti{display:inline-flex;width:1em;height:1em;vertical-align:-0.14em;flex-shrink:0}
+i.ti svg{width:100%;height:100%}
+.tabs button.on i.ti{width:auto;height:auto}
+.tabs i.ti svg{width:22px;height:22px}
+.top{gap:6px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--lime-text);outline-offset:2px}
+@media (max-width:400px){.top .logo{font-size:15px}.top .logo svg{width:18px;height:18px}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="phone" id="phone">
+  <div id="screen" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+  <div class="toast" id="toast"></div>
+</div>
+<script>
+const TI = {"alert-triangle": "<path d=\"M12 9v4\" /> <path d=\"M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z\" /> <path d=\"M12 16h.01\" />", "arrow-left": "<path d=\"M5 12l14 0\" /> <path d=\"M5 12l6 6\" /> <path d=\"M5 12l6 -6\" />", "bell": "<path d=\"M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6\" /> <path d=\"M9 17v1a3 3 0 0 0 6 0v-1\" />", "books": "<path d=\"M5 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z\" /> <path d=\"M9 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z\" /> <path d=\"M5 8h4\" /> <path d=\"M9 16h4\" /> <path d=\"M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041z\" /> <path d=\"M14 9l4 -1\" /> <path d=\"M16 16l3.923 -.98\" />", "building-store": "<path d=\"M3 21l18 0\" /> <path d=\"M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4\" /> <path d=\"M5 21l0 -10.15\" /> <path d=\"M19 21l0 -10.15\" /> <path d=\"M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4\" />", "calendar": "<path d=\"M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z\" /> <path d=\"M16 3v4\" /> <path d=\"M8 3v4\" /> <path d=\"M4 11h16\" /> <path d=\"M11 15h1\" /> <path d=\"M12 15v3\" />", "certificate": "<path d=\"M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0\" /> <path d=\"M13 17.5v4.5l2 -1.5l2 1.5v-4.5\" /> <path d=\"M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73\" /> <path d=\"M6 9l12 0\" /> <path d=\"M6 12l3 0\" /> <path d=\"M6 15l2 0\" />", "check": "<path d=\"M5 12l5 5l10 -10\" />", "chevron-left": "<path d=\"M15 6l-6 6l6 6\" />", "chevron-right": "<path d=\"M9 6l6 6l-6 6\" />", "circle-check": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" /> <path d=\"M9 12l2 2l4 -4\" />", "circle-x": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" /> <path d=\"M10 10l4 4m0 -4l-4 4\" />", "cloud-upload": "<path d=\"M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1\" /> <path d=\"M9 15l3 -3l3 3\" /> <path d=\"M12 12l0 9\" />", "database": "<path d=\"M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0\" /> <path d=\"M4 6v6a8 3 0 0 0 16 0v-6\" /> <path d=\"M4 12v6a8 3 0 0 0 16 0v-6\" />", "door-enter": "<path d=\"M13 12v.01\" /> <path d=\"M3 21h18\" /> <path d=\"M5 21v-16a2 2 0 0 1 2 -2h6m4 10.5v7.5\" /> <path d=\"M21 7h-7m3 -3l-3 3l3 3\" />", "download": "<path d=\"M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2\" /> <path d=\"M7 11l5 5l5 -5\" /> <path d=\"M12 4l0 12\" />", "file-spreadsheet": "<path d=\"M14 3v4a1 1 0 0 0 1 1h4\" /> <path d=\"M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z\" /> <path d=\"M8 11h8v7h-8z\" /> <path d=\"M8 15h8\" /> <path d=\"M11 11v7\" />", "files": "<path d=\"M15 3v4a1 1 0 0 0 1 1h4\" /> <path d=\"M18 17h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h4l5 5v7a2 2 0 0 1 -2 2z\" /> <path d=\"M16 17v2a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h2\" />", "flame": "<path d=\"M12 12c2 -2.96 0 -7 -1 -8c0 3.038 -1.773 4.741 -3 6c-1.226 1.26 -2 3.24 -2 5a6 6 0 1 0 12 0c0 -1.532 -1.056 -3.94 -2 -5c-1.786 3 -2.791 3 -4 2z\" />", "home": "<path d=\"M5 12l-2 0l9 -9l9 9l-2 0\" /> <path d=\"M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7\" /> <path d=\"M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6\" />", "hourglass": "<path d=\"M6.5 7h11\" /> <path d=\"M6.5 17h11\" /> <path d=\"M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z\" /> <path d=\"M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z\" />", "info-circle": "<path d=\"M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0\" /> <path d=\"M12 9h.01\" /> <path d=\"M11 12h1v4h1\" />", "link": "<path d=\"M9 15l6 -6\" /> <path d=\"M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464\" /> <path d=\"M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463\" />", "list-check": "<path d=\"M3.5 5.5l1.5 1.5l2.5 -2.5\" /> <path d=\"M3.5 11.5l1.5 1.5l2.5 -2.5\" /> <path d=\"M3.5 17.5l1.5 1.5l2.5 -2.5\" /> <path d=\"M11 6l9 0\" /> <path d=\"M11 12l9 0\" /> <path d=\"M11 18l9 0\" />", "lock-check": "<path d=\"M11.5 21h-4.5a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v.5\" /> <path d=\"M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0\" /> <path d=\"M8 11v-4a4 4 0 1 1 8 0v4\" /> <path d=\"M15 19l2 2l4 -4\" />", "lock": "<path d=\"M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z\" /> <path d=\"M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0\" /> <path d=\"M8 11v-4a4 4 0 1 1 8 0v4\" />", "logout": "<path d=\"M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2\" /> <path d=\"M9 12h12l-3 -3\" /> <path d=\"M18 15l3 -3\" />", "mail-forward": "<path d=\"M12 18h-7a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v7.5\" /> <path d=\"M3 6l9 6l9 -6\" /> <path d=\"M15 18h6\" /> <path d=\"M18 15l3 3l-3 3\" />", "map-pin": "<path d=\"M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0\" /> <path d=\"M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z\" />", "movie": "<path d=\"M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z\" /> <path d=\"M8 4l0 16\" /> <path d=\"M16 4l0 16\" /> <path d=\"M4 8l4 0\" /> <path d=\"M4 16l4 0\" /> <path d=\"M4 12l16 0\" /> <path d=\"M16 8l4 0\" /> <path d=\"M16 16l4 0\" />", "notes": "<path d=\"M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z\" /> <path d=\"M9 7l6 0\" /> <path d=\"M9 11l6 0\" /> <path d=\"M9 15l4 0\" />", "player-play": "<path d=\"M7 4v16l13 -8z\" />", "point": "<path d=\"M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0\" />", "presentation": "<path d=\"M3 4l18 0\" /> <path d=\"M4 4v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-10\" /> <path d=\"M12 16l0 4\" /> <path d=\"M9 20l6 0\" /> <path d=\"M8 12l3 -3l2 2l3 -3\" />", "qrcode": "<path d=\"M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z\" /> <path d=\"M7 17l0 .01\" /> <path d=\"M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z\" /> <path d=\"M7 7l0 .01\" /> <path d=\"M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z\" /> <path d=\"M17 7l0 .01\" /> <path d=\"M14 14l3 0\" /> <path d=\"M20 14l0 .01\" /> <path d=\"M14 14l0 3\" /> <path d=\"M14 20l3 0\" /> <path d=\"M17 17l3 0\" /> <path d=\"M20 17l0 3\" />", "school": "<path d=\"M22 9l-10 -4l-10 4l10 4l10 -4v6\" /> <path d=\"M6 10.6v5.4a6 3 0 0 0 12 0v-5.4\" />", "search": "<path d=\"M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0\" /> <path d=\"M21 21l-6 -6\" />", "send": "<path d=\"M10 14l11 -11\" /> <path d=\"M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5\" />", "sparkles": "<path d=\"M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z\" />", "timeline": "<path d=\"M4 16l6 -7l5 5l5 -6\" /> <path d=\"M15 14m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M10 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M4 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M20 8m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" />", "tool": "<path d=\"M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5\" />", "trash": "<path d=\"M4 7l16 0\" /> <path d=\"M10 11l0 6\" /> <path d=\"M14 11l0 6\" /> <path d=\"M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12\" /> <path d=\"M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3\" />", "trophy": "<path d=\"M8 21l8 0\" /> <path d=\"M12 17l0 4\" /> <path d=\"M7 4l10 0\" /> <path d=\"M17 4v8a5 5 0 0 1 -10 0v-8\" /> <path d=\"M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" /> <path d=\"M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" />", "user-check": "<path d=\"M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0\" /> <path d=\"M6 21v-2a4 4 0 0 1 4 -4h4\" /> <path d=\"M15 19l2 2l4 -4\" />", "user": "<path d=\"M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0\" /> <path d=\"M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2\" />", "x": "<path d=\"M18 6l-12 12\" /> <path d=\"M6 6l12 12\" />"};
+function paintIcons(root) {
+  (root || document).querySelectorAll('i.ti').forEach(el => {
+    if (el.firstChild) return;
+    const m = [...el.classList].find(c => c.startsWith('ti-'));
+    const body = m && TI[m.slice(3)];
+    if (body) el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
+  });
+}
+
+const LIME = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#D4EE4E"/><circle cx="12" cy="12" r="8" fill="#F1FAC4"/><g stroke="#D4EE4E" stroke-width="1.5"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/><line x1="17.7" y1="6.3" x2="6.3" y2="17.7"/></g></svg>';
+const XP = { tema: 10, resumen: 20, practica: 30, autoeval: 40 };
+const COIN = s => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true" style="vertical-align:-2px"><circle cx="12" cy="12" r="11" fill="#5C7A0A"/><circle cx="12" cy="12" r="8.5" fill="#D4EE4E"/><g stroke="#5C7A0A" stroke-width="1.6"><line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/><line x1="17.7" y1="6.3" x2="6.3" y2="17.7"/></g></svg>`;
+const TIENDA = [
+  { id: 'k1', tipo: 'Skill para IA', ic: 'ti-sparkles', t: 'Prompts para resumir textos', d: 'Una skill para pedirle a la IA resúmenes claros de cualquier texto.', p: 80, prof: 'Prof. Laura Pérez' },
+  { id: 'v1', tipo: 'Video', ic: 'ti-movie', t: 'Atajos de teclado que ahorran tiempo', d: 'Video de 12 minutos con los atajos más útiles.', p: 60, prof: 'Prof. Juan Gabriel Mollo' },
+  { id: 'v2', tipo: 'Video', ic: 'ti-movie', t: 'Contraseñas seguras y fáciles de recordar', d: 'Video de 9 minutos con ejemplos prácticos.', p: 100, prof: 'Prof. Martín Silva' },
+  { id: 'k2', tipo: 'Skill para IA', ic: 'ti-sparkles', t: 'Asistente para armar tu CV', d: 'Una skill que te guía paso a paso para escribir tu currículum.', p: 150, prof: 'Prof. Laura Pérez' },
+  { id: 'k3', tipo: 'Skill para IA', ic: 'ti-sparkles', t: 'Corrector de redacción', d: 'Una skill para revisar ortografía y claridad de tus textos.', p: 250, prof: 'Prof. Juan Gabriel Mollo' }
+];
+const ZIGZAG = [0, -55, -85, -55, 0, 55, 85, 55];
+
+const S = {
+  screen: 'login', history: [], tab: 'inicio', cursosTab: 'oferta', theme: 'system', themePref: 'system',
+  xp: 120, racha: 3, unread: 2, tiendaTab: 'tienda', canjes: [], canjeId: null,
+  done: { t1: true, t2: true },
+  pedidos: [{ curso: 'Redes en casa', estado: 'Rechazada', motivo: 'Cupo completo' }],
+  pedidoPlanillas: false, acreditacion: null,
+  temaPaso: 0, practica: {}, quiz: { i: 0, sel: null, checked: false, ok: 0 },
+  presente: false, curso: 'planillas'
+};
+
+const BLOQUES = [
+  { id: 'b1', n: 1, nombre: 'Fundamentos de informática', ref: 'Clase 01 · mar 12 nov · Sede Centro', hoy: true, nodos: [
+    { id: 't1', tipo: 'tema', et: 'Tema 1', ti: 'Qué es la informática' },
+    { id: 't2', tipo: 'tema', et: 'Tema 2', ti: 'Hardware y software' },
+    { id: 't3', tipo: 'tema', et: 'Tema 3', ti: 'Unidades de medida' },
+    { id: 't4', tipo: 'tema', et: 'Tema 4', ti: 'Partes internas' },
+    { id: 'r1', tipo: 'resumen', et: 'Resumen', ti: 'Repaso del bloque' },
+    { id: 'p1', tipo: 'practica', et: 'Práctica', ti: 'Ficha técnica de mi PC' },
+    { id: 'a1', tipo: 'autoeval', et: 'Autoevaluación', ti: 'Multiple choice' }
+  ]},
+  { id: 'b2', n: 2, nombre: 'Windows: el escritorio', ref: 'Clases 02 y 03 · desde mar 19 nov', nodos: [
+    { id: 'b2t1', tipo: 'tema', et: 'Tema 1', ti: 'El escritorio' },
+    { id: 'b2t2', tipo: 'tema', et: 'Tema 2', ti: 'Ventanas' },
+    { id: 'b2r', tipo: 'resumen', et: 'Resumen', ti: 'Repaso del bloque' },
+    { id: 'b2a', tipo: 'autoeval', et: 'Autoevaluación', ti: 'Multiple choice' }
+  ]}
+];
+const ALL = BLOQUES.flatMap(b => b.nodos);
+const ICON = { tema: 'ti-player-play', resumen: 'ti-notes', practica: 'ti-tool', autoeval: 'ti-trophy' };
+
+const CURSOS = {
+  planillas: { nombre: 'Planillas de cálculo', prof: 'Prof. Laura Pérez', fechas: '1 dic a 20 feb', clases: 10, cierre: 'Inscripción abierta hasta el 30 nov', desc: 'Fórmulas, funciones básicas y gráficos para organizar información.', correlativa: null },
+  presentaciones: { nombre: 'Diseño de presentaciones', prof: 'Prof. Martín Silva', fechas: '3 dic a 18 feb', clases: 8, cierre: 'Inscripción abierta hasta el 2 dic', desc: 'Armar presentaciones claras con diapositivas, imágenes y gráficos.', correlativa: 'Planillas de cálculo' }
+};
+
+const QUIZ = [
+  { q: '¿Cuál de estos es hardware?', o: ['El navegador', 'El teclado', 'Un archivo de texto'], c: 1 },
+  { q: '¿Cuántos bytes tiene un kilobyte?', o: ['100', '1000', '10'], c: 1 },
+  { q: 'El sistema operativo es…', o: ['Software', 'Hardware', 'Un periférico'], c: 0 },
+  { q: '¿Dónde se guardan los archivos de forma permanente?', o: ['Memoria RAM', 'Disco', 'Procesador'], c: 1 }
+];
+const TEMA = [
+  { t: 'Unidades de medida', p: 'La información en una computadora se mide en bytes. Un byte alcanza para guardar una letra.' },
+  { t: 'De bytes a gigas', p: 'Mil bytes forman un kilobyte (KB), mil KB un megabyte (MB) y mil MB un gigabyte (GB).' },
+  { t: '¿Cuánto pesa una foto?', p: 'Una foto del celular pesa unos 3 MB. En 1 GB entran más de 300 fotos.' }
+];
+const PRACTICA = ['Abrí la configuración de tu computadora', 'Buscá el procesador y anotalo', 'Buscá la memoria RAM y anotala', 'Buscá la capacidad del disco y anotala'];
+
+const nextId = () => { const n = ALL.find(n => !S.done[n.id]); return n ? n.id : null; };
+const doneCount = () => ALL.filter(n => S.done[n.id]).length;
+const blockDone = b => b.nodos.every(n => S.done[n.id]);
+
+function topBar() {
+  return `<div class="top"><span class="logo">${LIME}acadelime</span><span style="flex:1"></span>
+    <button class="pill" style="border:none" data-go="tienda" title="Tus limes: tocá para ir a la tienda">${COIN(14)}${S.xp}</button>
+    <span class="pill" title="Racha semanal: semanas seguidas con actividad"><i class="ti ti-flame"></i>${S.racha} sem</span>
+    <button class="iconbtn" data-go="notificaciones" aria-label="Notificaciones"><i class="ti ti-bell"></i>${S.unread ? '<span class="dot"></span>' : ''}</button>
+    <span class="org">UTEC</span></div>`;
+}
+function tabs() {
+  const t = [['inicio', 'ti-home', 'Inicio'], ['cursos', 'ti-books', 'Cursos'], ['calendario', 'ti-calendar', 'Calendario'], ['perfil', 'ti-user', 'Perfil']];
+  return `<nav class="tabs">${t.map(([id, ic, l]) => `<button data-tabgo="${id}" class="${S.tab === id ? 'on' : ''}"><i class="ti ${ic}"></i>${l}</button>`).join('')}</nav>`;
+}
+function head(title, opts = {}) {
+  return `<div class="head"><button class="iconbtn" data-back aria-label="${opts.close ? 'Cerrar' : 'Volver'}"><i class="ti ${opts.close ? 'ti-x' : 'ti-arrow-left'}"></i></button><h2>${title}</h2>${opts.right || ''}</div>`;
+}
+const shell = (body, withTabs = true) => `${topBar()}<div class="scroll">${body}</div>${withTabs ? tabs() : ''}`;
+const plain = body => `<div class="scroll">${body}</div>`;
+
+function pathHTML(b, locked) {
+  const W = 358, C = W / 2, GAP = 80, cur = nextId();
+  const pts = b.nodos.map((n, i) => ({ x: C + ZIGZAG[i % 8], y: 50 + i * GAP }));
+  const H = 50 + (b.nodos.length - 1) * GAP + 60;
+  let lastDone = -1; b.nodos.forEach((n, i) => { if (S.done[n.id]) lastDone = i; });
+  const seg = (a, z) => { let d = `M${pts[a].x} ${pts[a].y}`; for (let i = a + 1; i <= z; i++) d += ` C${pts[i - 1].x} ${pts[i - 1].y + 40} ${pts[i].x} ${pts[i].y - 40} ${pts[i].x} ${pts[i].y}`; return d; };
+  const reach = Math.min(lastDone + 1, b.nodos.length - 1);
+  let svg = `<svg width="${W}" height="${H}" style="position:absolute;left:0;top:0" aria-hidden="true">`;
+  if (!locked && reach > 0) svg += `<path d="${seg(0, reach)}" fill="none" stroke="#B5D334" stroke-width="8" stroke-linecap="round"/>`;
+  const startP = locked ? 0 : reach;
+  if (startP < b.nodos.length - 1) svg += `<path d="${seg(startP, b.nodos.length - 1)}" fill="none" stroke="var(--trail)" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>`;
+  svg += '</svg>';
+  const nodes = b.nodos.map((n, i) => {
+    const p = pts[i], off = ZIGZAG[i % 8], done = !!S.done[n.id], isCur = !locked && n.id === cur;
+    let style, icon = ICON[n.tipo], lblColor = '', extra = '';
+    if (done) { style = 'background:#B5D334;color:#1B2B1E'; icon = n.tipo === 'autoeval' ? 'ti-trophy' : 'ti-check'; }
+    else if (isCur) { style = 'background:#1B2B1E;color:#D4EE4E'; extra = `<div class="halo" style="left:${p.x - 40}px;top:${p.y - 40}px"></div>`; }
+    else if (n.tipo === 'autoeval') { style = 'background:var(--accent-50);color:var(--accent-text)'; lblColor = 'color:var(--accent-text)'; }
+    else { style = 'background:var(--locked-bg);color:var(--locked-fg)'; icon = 'ti-lock'; lblColor = 'color:var(--locked-label)'; }
+    const right = off <= 0;
+    const lx = right ? `left:${p.x + 40 + (isCur ? 8 : 0)}px` : `right:${W - p.x + 40}px;text-align:right`;
+    const open = done || isCur;
+    return `${extra}<button class="node" style="left:${p.x - 30}px;top:${p.y - 30}px;${style}" ${open ? `data-node="${n.id}"` : 'data-locked'} aria-label="${n.et}: ${n.ti}${done ? ', completado' : isCur ? ', siguiente' : ', bloqueado'}"><i class="ti ${icon}"></i></button>
+      <div class="nl" style="${lx};top:${p.y - 18}px;${lblColor}"><b style="${isCur ? 'color:var(--lime-text)' : n.tipo === 'autoeval' && !done ? 'color:var(--accent-text)' : ''}">${n.et}${isCur ? ' · seguí acá' : ''}</b>${n.ti}</div>`;
+  }).join('');
+  return `<div class="path" style="height:${H}px;margin:16px">${svg}${nodes}</div>`;
+}
+
+const V = {
+  login: () => plain(`<div class="pad" style="padding-top:56px">
+    <div class="center" style="margin-bottom:28px"><div class="logo" style="justify-content:center;font-size:30px;color:var(--text)">${LIME.replace(/22/g, '34')}acadelime</div>
+    <p class="muted" style="margin-top:12px">UTEC · Campus virtual</p></div>
+    <div class="field"><label>Correo electrónico</label><input value="maria.fernandez@correo.com"></div>
+    <div class="field"><label>Contraseña</label><input type="password" value="12345678"></div>
+    <button class="btn b-pri" data-go="inicio" style="margin-top:8px">Iniciar sesión</button>
+    <button class="btn b-gho" style="margin-top:6px" data-go="olvide">Olvidé mi contraseña</button>
+    <div class="center muted" style="margin-top:24px">¿Primera vez? <button class="b-gho" style="border:none;background:none;font-size:13px;font-weight:500" data-go="registro">Crear cuenta</button></div></div>`),
+  registro: () => plain(`${head('Crear cuenta')}<div class="pad">
+    <div class="field"><label>Nombre y apellido</label><input placeholder="María Fernández"></div>
+    <div class="field"><label>DNI</label><input inputmode="numeric" placeholder="30123456"><p class="small muted" style="margin:6px 0 0">Obligatorio. Solo números, sin puntos. No puede estar registrado en otra cuenta.</p></div>
+    <div class="field"><label>Correo electrónico</label><input placeholder="nombre@correo.com"></div>
+    <div class="field"><label>Contraseña</label><input type="password" placeholder="Mínimo 8 caracteres"></div>
+    <div class="card c-info" style="border:none;font-size:13px"><i class="ti ti-info-circle"></i> Un administrador te asigna a tu sede. Hasta entonces no vas a ver cursos.</div>
+    <button class="btn b-pri" data-go="registroOk">Crear cuenta</button></div>`),
+  registroOk: () => plain(`<div class="pad center" style="padding-top:80px"><div class="big" style="background:var(--lime-100);color:#3A4A10"><i class="ti ti-user-check"></i></div>
+    <h2 style="font-size:24px">Cuenta creada</h2><p class="muted">Cuando un administrador te asigne a una sede, vas a ver los cursos con inscripción abierta.</p>
+    <div class="card" style="text-align:left;margin-top:20px"><div class="between"><span class="small">Sede</span><span class="chip c-warn">Sin asignar</span></div></div>
+    <button class="btn b-pri" data-go="inicio">Entrar</button></div>`),
+
+  inicio: () => { const pct = Math.round(doneCount() / ALL.length * 100), nx = ALL.find(n => n.id === nextId());
+    const bar = (v, extra = '') => `<div class="row" style="margin-top:10px"><div class="prog"><span style="width:${v}%"></span></div><span class="small">${extra}</span></div>`;
+    return shell(`<div class="pad"><h2 style="font-size:22px;margin-bottom:16px">Hola, María</h2>
+    <div class="small muted" style="margin-bottom:8px">Cursando</div>
+    <button class="card" data-go="aprender" style="display:block;width:100%;text-align:left;color:var(--text)">
+      <div class="between"><h3 style="font-size:17px">Autonomía digital personal</h3><span class="chip c-info">Cursando</span></div>
+      ${bar(pct, doneCount() + '/' + ALL.length)}
+      <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap"><span class="chip c-ok"><i class="ti ti-calendar"></i> Hoy 18:00 · Clase 01</span><span class="chip c-neu">Bloque 1 de 2</span></div>
+      ${nx ? `<div class="row" style="margin-top:12px;padding:10px;border-radius:12px;background:var(--paper)"><span class="ico" style="background:#1B2B1E;color:#D4EE4E;width:36px;height:36px;font-size:16px"><i class="ti ${ICON[nx.tipo]}"></i></span><span style="flex:1;font-size:13px">${nx.et} · ${nx.ti}</span><i class="ti ti-chevron-right"></i></div>` : ''}
+    </button>
+    <button class="card" data-toast="En el prototipo solo tiene camino Autonomía digital personal" style="display:block;width:100%;text-align:left;color:var(--text)">
+      <div class="between"><h3 style="font-size:17px">Correo electrónico y nube</h3><span class="chip c-info">Cursando</span></div>
+      ${bar(42, '5/12')}
+      <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap"><span class="chip c-neu"><i class="ti ti-calendar"></i> jue 14 nov · Clase 04</span><span class="chip c-neu">Bloque 2 de 4</span></div>
+    </button>
+    <div class="small muted" style="margin:18px 0 8px">Terminados</div>
+    <div class="card"><div class="between"><h3 style="font-size:16px">Alfabetización digital inicial</h3><span class="chip c-ok">Aprobado</span></div>
+      <div class="muted" style="margin-top:2px">Nota 9</div>${bar(100, '12/12')}
+      <div class="row" style="margin-top:12px"><button class="btn b-sec" style="padding:9px;font-size:13px" data-toast="Abre el camino completo del curso">Ver material</button><button class="btn b-sec" style="padding:9px;font-size:13px" data-go="certificado">Certificado</button></div></div>
+    <div class="card" style="background:var(--locked-bg);border-color:var(--locked-bg)"><div class="between"><h3 style="font-size:16px;color:var(--text-2)">Redes sociales seguras</h3><span class="chip c-bad">Abandonado</span></div>
+      <div class="muted" style="margin-top:4px"><i class="ti ti-lock"></i> Sin acceso al material</div></div>
+    <button class="btn b-sec" style="margin-top:6px" data-tabgo="cursos"><i class="ti ti-search"></i>Ver nuevos cursos</button></div>`); },
+  olvide: () => plain(`${head('Recuperar contraseña')}<div class="pad">
+    <p style="font-size:15px;line-height:1.5;margin-top:0">Escribí el correo de tu cuenta. Te enviamos un enlace para elegir una contraseña nueva.</p>
+    <div class="field"><label>Correo electrónico</label><input id="rec-mail" placeholder="nombre@correo.com"><p class="small" id="rec-err" style="color:var(--danger);margin:6px 0 0;min-height:16px"></p></div>
+    <button class="btn b-pri" data-recsend>Enviar enlace</button></div>`),
+  olvideEnviado: () => plain(`<div class="pad center" style="padding-top:80px"><div class="big" style="background:var(--lime-100);color:#3A4A10"><i class="ti ti-mail-forward"></i></div>
+    <h2 style="font-size:24px">Revisá tu correo</h2><p class="muted">Si hay una cuenta con ese correo, te enviamos un enlace. Vence en 1 hora.</p>
+    <p class="small muted">¿No llegó? Mirá en correo no deseado o pedí otro enlace.</p>
+    <button class="btn b-sec" style="margin-top:16px" data-toast="Te enviamos un enlace nuevo">Enviar otro enlace</button>
+    <button class="btn b-pri" style="margin-top:10px" data-go="nuevaClave">Simular: abrir el enlace del correo</button>
+    <button class="btn b-gho" data-go="login" data-root>Volver a iniciar sesión</button></div>`),
+  nuevaClave: () => plain(`<div class="pad" style="padding-top:40px"><h2 style="font-size:24px;margin-bottom:6px">Elegí una contraseña nueva</h2><p class="muted" style="margin-top:0">Mínimo 8 caracteres.</p>
+    <div class="field"><label>Contraseña nueva</label><input type="password" id="nc1"></div>
+    <div class="field"><label>Repetí la contraseña</label><input type="password" id="nc2"><p class="small" id="nc-err" style="color:var(--danger);margin:6px 0 0;min-height:16px"></p></div>
+    <button class="btn b-pri" data-newpass>Guardar contraseña</button></div>`),
+  claveOk: () => plain(`<div class="pad center" style="padding-top:90px"><div class="big" style="background:var(--lime-500);color:#1B2B1E"><i class="ti ti-lock-check"></i></div>
+    <h2 style="font-size:24px">Contraseña actualizada</h2><p class="muted">Ya podés iniciar sesión con tu contraseña nueva.</p>
+    <button class="btn b-pri" style="margin-top:20px" data-go="login" data-root>Iniciar sesión</button></div>`),
+  aprender: () => shell(`<div style="padding:12px 16px 0"><div class="row"><button class="iconbtn" data-back aria-label="Volver al inicio"><i class="ti ti-arrow-left"></i></button><div><div class="muted small">Prof. Juan Gabriel Mollo · Sede Centro</div><h2 style="font-size:20px">Autonomía digital personal</h2></div></div>
+      <div class="row" style="margin-top:10px"><div class="prog"><span style="width:${Math.round(doneCount() / ALL.length * 100)}%"></span></div><span class="small">${doneCount()}/${ALL.length}</span></div></div>
+    ${BLOQUES.map((b, i) => { const locked = i > 0 && !blockDone(BLOQUES[i - 1]); return `
+      <div class="bh ${locked ? 'lock' : ''}"><div class="between"><div><div class="small" style="opacity:.85">Bloque ${b.n} · ${b.ref}</div><div class="display" style="font-size:18px">${b.nombre} ${locked ? '<i class="ti ti-lock" style="font-size:15px"></i>' : ''}</div></div>
+      ${b.hoy && !locked ? `<button class="iconbtn" style="background:#1B2B1E;color:#D4EE4E;border-radius:10px;padding:8px" data-go="clase" aria-label="Ver clase de hoy"><i class="ti ti-calendar"></i></button>` : ''}</div>
+      ${b.hoy && !locked && !S.presente ? `<button class="btn b-emp" style="margin-top:10px;padding:9px;font-size:13px" data-go="qr"><i class="ti ti-qrcode"></i>Clase de hoy · registrar asistencia</button>` : ''}</div>
+      ${pathHTML(b, locked)}`; }).join('')}`),
+
+  tema: () => { const p = S.temaPaso, s = TEMA[p], last = p === TEMA.length - 1; const n = ALL.find(x => x.id === (S.temaId || 't3')); return plain(`${head(n.et + ' · ' + n.ti, { close: true })}
+    <div class="pad"><div class="row" style="margin-bottom:20px"><div class="prog"><span style="width:${(p + 1) / TEMA.length * 100}%"></span></div><span class="small">${p + 1}/${TEMA.length}</span></div>
+    <div class="card" style="padding:22px"><div class="ico" style="background:var(--lime-100);color:#3A4A10;margin-bottom:14px"><i class="ti ti-database"></i></div>
+    <h2 style="font-size:22px;margin-bottom:10px">${s.t}</h2><p style="font-size:16px;line-height:1.6;margin:0">${s.p}</p></div>
+    <button class="btn b-pri" data-temanext>${last ? 'Terminar tema' : 'Continuar'}</button></div>`); },
+  logro: () => plain(`<div class="pad center" style="padding-top:90px"><div class="big" style="background:var(--lime-500);color:#1B2B1E"><i class="ti ti-check"></i></div>
+    <h2 style="font-size:26px">${S.logro.titulo}</h2><p class="muted">${S.logro.sub}</p>
+    <div style="margin:18px 0 28px"><span class="chip c-ok" style="font-size:16px;padding:8px 14px">${COIN(18)} +${S.logro.xp} limes</span></div>
+    <button class="btn b-pri" data-go="aprender" data-root>Volver al camino</button></div>`),
+  resumen: () => plain(`${head('Resumen del bloque 1', { close: true })}<div class="pad">
+    <p class="muted" style="margin-top:0">Repasá lo central antes de la autoevaluación.</p>
+    ${['La informática procesa información con computadoras.', 'Hardware es lo que se toca; software, los programas.', 'La información se mide en bytes, KB, MB y GB.', 'El procesador piensa, la RAM recuerda por un rato y el disco guarda.'].map((t, i) => `<div class="card row" style="align-items:flex-start"><span class="ico" style="background:var(--lime-100);color:#3A4A10;width:32px;height:32px;font-size:15px;font-weight:500">${i + 1}</span><span style="font-size:15px;line-height:1.5">${t}</span></div>`).join('')}
+    <button class="btn b-pri" data-complete="r1">Listo, lo repasé</button></div>`),
+  practica: () => { const all = PRACTICA.every((_, i) => S.practica[i]); return plain(`${head('Práctica · Ficha técnica de mi PC', { close: true })}<div class="pad">
+    <div class="card"><div class="small muted">Consigna</div><p style="margin:6px 0 0;font-size:15px;line-height:1.5">Completá la ficha técnica de la computadora que usás. Marcá cada paso al terminarlo.</p></div>
+    ${PRACTICA.map((t, i) => `<label class="check"><input type="checkbox" data-pcheck="${i}" ${S.practica[i] ? 'checked' : ''}>${t}</label>`).join('')}
+    <div style="height:16px"></div><button class="btn ${all ? 'b-pri' : 'b-sec'}" data-complete="p1" ${all ? '' : 'data-need="Marcá todos los pasos para terminar la práctica"'}>Terminar práctica</button></div>`); },
+  autoeval: () => { const z = S.quiz, q = QUIZ[z.i]; return plain(`${head('Autoevaluación · Bloque 1', { close: true })}<div class="pad">
+    <div class="row" style="margin-bottom:20px"><div class="prog"><span style="width:${z.i / QUIZ.length * 100}%;background:var(--accent)"></span></div><span class="small">${z.i + 1}/${QUIZ.length}</span></div>
+    <h2 style="font-size:21px;margin-bottom:18px">${q.q}</h2>
+    ${q.o.map((o, i) => { let c = ''; if (z.checked) { if (i === q.c) c = 'good'; else if (i === z.sel) c = 'wrong'; } else if (i === z.sel) c = 'sel'; return `<button class="opt ${c}" data-opt="${i}" ${z.checked ? 'disabled' : ''}>${o}</button>`; }).join('')}
+    ${z.checked ? `<div class="card ${z.sel === q.c ? 'c-ok' : 'c-bad'}" style="border:none;font-size:14px">${z.sel === q.c ? '<i class="ti ti-circle-check"></i> Correcto' : '<i class="ti ti-circle-x"></i> La respuesta correcta es: ' + q.o[q.c]}</div>
+      <button class="btn b-pri" data-qnext>${z.i === QUIZ.length - 1 ? 'Ver resultado' : 'Siguiente'}</button>`
+      : `<p class="small" id="qerr" style="color:var(--danger);min-height:18px;margin:0 0 6px"></p><button class="btn b-pri" data-qcheck>Comprobar</button>`}</div>`); },
+  autoevalRes: () => { const ok = S.quiz.ok, xp = Math.round(XP.autoeval * ok / QUIZ.length); return plain(`<div class="pad center" style="padding-top:80px">
+    <div class="big" style="background:var(--accent-50);color:var(--accent-text)"><i class="ti ti-trophy"></i></div>
+    <h2 style="font-size:26px">${ok} de ${QUIZ.length} correctas</h2><p class="muted">Terminaste el bloque 1. Tu profesor también ve este resultado.</p>
+    <div style="margin:18px 0 28px"><span class="chip c-ok" style="font-size:16px;padding:8px 14px">${COIN(18)} +${xp} limes</span></div>
+    <button class="btn b-pri" data-go="aprender" data-root>Seguir con el bloque 2</button>
+    <button class="btn b-gho" data-retry>Repetir autoevaluación</button></div>`); },
+
+  cursos: () => { const t = S.cursosTab; const seg = `<div class="seg">${[['oferta', 'Nuevos Cursos y Oferta'], ['pedidos', 'Inscripciones']].map(([id, l]) => `<button data-ctab="${id}" class="${t === id ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+    let body = '';
+    if (t === 'oferta') body = `<p class="muted" style="margin-top:0"><i class="ti ti-map-pin"></i> Cursos de Sede Centro con inscripción abierta</p>
+      ${Object.entries(CURSOS).map(([id, c]) => `<div class="card" data-go="curso" data-id="${id}" style="cursor:pointer"><h3 style="font-size:16px">${c.nombre}</h3>
+        <div class="muted" style="margin:4px 0 10px">${c.prof} · ${c.fechas}</div>
+        <div class="row" style="flex-wrap:wrap;gap:6px"><span class="chip c-ok">${c.cierre}</span>${c.correlativa ? `<span class="chip c-warn">Requiere ${c.correlativa}</span>` : ''}${id === 'planillas' && S.pedidoPlanillas ? '<span class="chip c-warn">Pedido enviado</span>' : ''}</div></div>`).join('')}`;
+    if (t === 'pedidos') { const list = [...(S.pedidoPlanillas ? [{ curso: 'Planillas de cálculo', estado: 'Inscripción pendiente', motivo: 'Lo revisa un administrador o profesor' }] : []), ...(S.acreditacion ? [{ curso: 'Acreditación · ' + S.acreditacion, estado: 'En revisión', motivo: 'Para Diseño de presentaciones' }] : []), ...S.pedidos];
+      body = list.map(p => `<div class="card"><div class="between"><h3 style="font-size:15px">${p.curso}</h3><span class="chip ${p.estado === 'Rechazada' ? 'c-neu' : 'c-warn'}">${p.estado}</span></div><div class="muted" style="margin-top:4px">${p.motivo}</div></div>`).join(''); }
+    return shell(`<div class="pad">${seg}${body}</div>`); },
+  curso: () => { const id = S.curso, c = CURSOS[id]; let action;
+    if (c.correlativa && !S.acreditacion) action = `<div class="card c-warn" style="border:none"><div class="row" style="align-items:flex-start"><i class="ti ti-alert-triangle" style="font-size:20px"></i><div><b style="font-weight:500">Te falta una correlativa</b><div style="font-size:13px;margin-top:4px">Para inscribirte necesitás tener aprobado ${c.correlativa}, o acreditar la competencia.</div></div></div></div>
+      <button class="btn b-pri" data-go="acreditar">Acreditar competencia</button>`;
+    else if (c.correlativa) action = `<div class="card c-warn" style="border:none;font-size:14px"><i class="ti ti-hourglass"></i> Tu acreditación está en revisión. Cuando se apruebe, vas a poder pedir la inscripción.</div>`;
+    else if (S.pedidoPlanillas) action = `<div class="card c-warn" style="border:none;font-size:14px"><i class="ti ti-hourglass"></i> Pedido enviado. Lo revisa un administrador o profesor.</div>`;
+    else action = `<button class="btn b-pri" data-pedir>Pedir inscripción</button><p class="small muted center">Un administrador o profesor tiene que aprobar tu pedido.</p>`;
+    return plain(`${head(c.nombre)}<div class="pad"><p style="font-size:15px;line-height:1.5;margin-top:0">${c.desc}</p>
+      <div class="card">${[['ti-user', 'Profesor', c.prof], ['ti-calendar', 'Fechas', c.fechas], ['ti-map-pin', 'Sede', 'Sede Centro'], ['ti-school', 'Clases', c.clases + ' clases'], ['ti-link', 'Correlativa', c.correlativa || 'No tiene']].map(([ic, k, v]) => `<div class="between" style="padding:6px 0"><span class="muted"><i class="ti ${ic}"></i> ${k}</span><span style="font-size:14px">${v}</span></div>`).join('')}</div>
+      <span class="chip c-ok" style="margin-bottom:14px">${c.cierre}</span><div style="height:12px"></div>${action}</div>`); },
+  pedidoOk: () => plain(`<div class="pad center" style="padding-top:90px"><div class="big" style="background:var(--warn-bg);color:var(--warn-fg)"><i class="ti ti-send"></i></div>
+    <h2 style="font-size:24px">Pedido enviado</h2><p class="muted">Un administrador o profesor va a revisar tu inscripción a Planillas de cálculo. Te avisamos cuando haya respuesta.</p>
+    <button class="btn b-pri" data-go="cursos" data-tab="pedidos" data-root style="margin-top:20px">Ver mis inscripciones</button></div>`),
+  acreditar: () => plain(`${head('Acreditar competencia')}<div class="pad"><p class="muted" style="margin-top:0">Reemplaza la correlativa Planillas de cálculo. Elegí una forma:</p>
+    ${[['acExamen', 'ti-list-check', 'Rendir un examen', 'Multiple choice. Lo revisa un profesor'], ['acEvidencias', 'ti-files', 'Subir evidencias', 'Archivos que muestren lo que sabés hacer. Se revisan'], ['acProyecto', 'ti-presentation', 'Entregar un proyecto', 'Lo corrige un profesor']].map(([g, ic, t, s]) => `<button class="card row" data-go="${g}" style="width:100%;text-align:left;color:var(--text)"><span class="ico" style="background:var(--lime-100);color:#3A4A10"><i class="ti ${ic}"></i></span><span style="flex:1"><b style="font-weight:500;font-size:15px">${t}</b><br><span class="muted">${s}</span></span><i class="ti ti-chevron-right"></i></button>`).join('')}</div>`),
+  acExamen: () => plain(`${head('Examen de acreditación', { close: true })}<div class="pad"><div class="row" style="margin-bottom:20px"><div class="prog"><span style="width:20%"></span></div><span class="small">1/10</span></div>
+    <h2 style="font-size:21px;margin-bottom:18px">¿Qué fórmula suma las celdas A1 a A5?</h2>
+    ${['=SUMA(A1:A5)', '=A1+A5', '=SUMAR(A1;A5)'].map((o, i) => `<button class="opt ${i === 0 ? 'sel' : ''}">${o}</button>`).join('')}
+    <button class="btn b-pri" data-acsend="Examen" style="margin-top:10px">Enviar examen</button><p class="small muted center">Lo revisa un profesor. Prototipo: se muestra una pregunta de ejemplo.</p></div>`),
+  acEvidencias: () => plain(`${head('Subir evidencias')}<div class="pad"><p class="muted" style="margin-top:0">Subí archivos que muestren que ya sabés usar planillas de cálculo.</p>
+    <div class="drop"><i class="ti ti-cloud-upload" style="font-size:30px"></i><br>Tocá para elegir archivos</div>
+    <div class="card row"><span class="ico" style="background:var(--info-bg);color:var(--info-fg)"><i class="ti ti-file-spreadsheet"></i></span><span style="flex:1;font-size:14px">presupuesto-familiar.xlsx<br><span class="muted small">48 KB</span></span><button class="iconbtn" aria-label="Quitar archivo"><i class="ti ti-trash"></i></button></div>
+    <div class="field"><label>Comentario para quien revisa</label><textarea rows="3" placeholder="Uso planillas en mi trabajo para llevar el stock"></textarea></div>
+    <button class="btn b-pri" data-acsend="Evidencias">Enviar evidencias</button></div>`),
+  acProyecto: () => plain(`${head('Entregar proyecto')}<div class="pad"><div class="card"><div class="small muted">Consigna</div><p style="margin:6px 0 0;font-size:15px;line-height:1.5">Armá una planilla con los gastos de un mes, totales por categoría y un gráfico.</p></div>
+    <div class="drop"><i class="ti ti-cloud-upload" style="font-size:30px"></i><br>Subí tu proyecto</div>
+    <button class="btn b-pri" data-acsend="Proyecto">Entregar proyecto</button><p class="small muted center">Lo corrige un profesor.</p></div>`),
+  acOk: () => plain(`<div class="pad center" style="padding-top:90px"><div class="big" style="background:var(--warn-bg);color:var(--warn-fg)"><i class="ti ti-hourglass"></i></div>
+    <h2 style="font-size:24px">${S.acreditacion} en revisión</h2><p class="muted">Un profesor la va a revisar. Te avisamos cuando esté el resultado y queda registrado en tu trayectoria.</p>
+    <button class="btn b-pri" data-go="cursos" data-tab="pedidos" data-root style="margin-top:20px">Ver mis inscripciones</button></div>`),
+
+  calendario: () => shell(`<div class="pad"><div class="between" style="margin-bottom:12px"><h2 style="font-size:20px">Noviembre</h2><div class="row"><button class="iconbtn" aria-label="Semana anterior"><i class="ti ti-chevron-left"></i></button><button class="iconbtn" aria-label="Semana siguiente"><i class="ti ti-chevron-right"></i></button></div></div>
+    <div class="days">${[['lun', 11], ['mar', 12], ['mié', 13], ['jue', 14], ['vie', 15], ['sáb', 16], ['dom', 17]].map(([d, n]) => `<div class="${n === 12 ? 'on' : ''}">${d}<b>${n}</b></div>`).join('')}</div>
+    <div class="small muted" style="margin-bottom:8px">Hoy</div>
+    <div class="card" data-go="clase" style="cursor:pointer;border:2px solid var(--lime-500)"><div class="between"><span class="chip c-ok">Hoy · 18:00</span>${S.presente ? '<span class="chip c-ok"><i class="ti ti-check"></i> Presente</span>' : ''}</div>
+      <h3 style="font-size:16px;margin-top:8px">Clase 01 · Autonomía digital personal</h3><div class="muted">Bloque 1: Fundamentos de informática · Sede Centro</div></div>
+    <div class="small muted" style="margin:16px 0 8px">Próximas</div>
+    ${[['mar 19 nov · 18:00', 'Clase 02 · Autonomía digital personal', 'Bloque 2: Windows, el escritorio'], ['jue 21 nov · 18:00', 'Clase 03 · Autonomía digital personal', 'Bloque 2: Windows, el escritorio']].map(([f, t, b]) => `<div class="card"><span class="chip c-neu">${f}</span><h3 style="font-size:16px;margin-top:8px">${t}</h3><div class="muted">${b} · Sede Centro</div></div>`).join('')}</div>`),
+  clase: () => plain(`${head('Clase 01')}<div class="pad"><span class="chip c-ok">Hoy · mar 12 nov · 18:00</span>
+    <h2 style="font-size:22px;margin:10px 0 4px">Autonomía digital personal</h2><div class="muted">Sede Centro · Prof. Juan Gabriel Mollo</div>
+    <div class="card" style="margin-top:16px"><div class="small muted" style="margin-bottom:8px">Temas de la clase</div>${['Qué es la informática', 'Hardware y software', 'Unidades de medida', 'Partes internas'].map(t => `<div style="padding:4px 0;font-size:14px"><i class="ti ti-point"></i> ${t}</div>`).join('')}</div>
+    ${S.presente ? '<div class="card c-ok" style="border:none"><i class="ti ti-circle-check"></i> Asistencia registrada a las 18:04</div>' : '<button class="btn b-pri" data-go="qr"><i class="ti ti-qrcode"></i>Registrar asistencia</button>'}
+    <button class="btn b-sec" style="margin-top:10px" data-go="aprender" data-root>Ir al bloque 1</button></div>`),
+  qr: () => `<div class="cam"><div class="between" style="width:100%"><button class="iconbtn" data-back aria-label="Cerrar" style="color:#EEF3E2"><i class="ti ti-x"></i></button><span style="font-size:14px">Clase 01 · Sede Centro</span><span style="width:28px"></span></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px"><div class="frame"><i class="ti ti-qrcode"></i></div>
+    <p style="text-align:center;font-size:15px;margin:0;max-width:260px">Apuntá la cámara al QR que muestra tu profesor</p></div>
+    <button class="btn b-pri" data-scan>Simular lectura del QR</button></div>`,
+  qrOk: () => plain(`<div class="pad center" style="padding-top:90px"><div class="big" style="background:var(--lime-500);color:#1B2B1E"><i class="ti ti-circle-check"></i></div>
+    <h2 style="font-size:26px">Estás presente</h2><p class="muted">Clase 01 · Autonomía digital personal<br>Registrado a las 18:04</p>
+    <button class="btn b-pri" data-go="aprender" data-root style="margin-top:24px">Ir al bloque de hoy</button></div>`),
+
+  perfil: () => shell(`<div class="pad"><div class="row" style="margin-bottom:16px"><div class="ico" style="width:56px;height:56px;border-radius:18px;background:var(--lime-500);color:#1B2B1E;font-family:'Bricolage Grotesque';font-weight:700;font-size:20px">MF</div>
+      <div><h2 style="font-size:19px">María Fernández</h2><div class="muted">maria.fernandez@correo.com</div></div></div>
+    <div class="row" style="gap:10px;margin-bottom:6px"><button class="card" data-go="tienda" style="flex:1;margin:0;text-align:left;color:var(--text)"><div class="muted small">Limes</div><div class="display" style="font-size:22px">${COIN(18)} ${S.xp}</div><div class="small" style="color:var(--lime-text);margin-top:2px">Ir a la tienda</div></button>
+      <div class="card" style="flex:1;margin:0"><div class="muted small">Racha</div><div class="display" style="font-size:22px">${S.racha} semanas</div></div></div>
+    <p class="small muted" style="margin:6px 0 10px">La racha suma una semana cada vez que completás al menos un nodo. Los limes no cambian tus notas.</p>
+    <div class="list">${[['tienda', 'ti-building-store', 'Tienda de limes'], ['trayectoria', 'ti-timeline', 'Mi trayectoria'], ['certificados', 'ti-certificate', 'Certificados'], ['notificaciones', 'ti-bell', 'Notificaciones']].map(([g, ic, t]) => `<button data-go="${g}"><span class="ico" style="background:var(--lime-100);color:#3A4A10"><i class="ti ${ic}"></i></span><span style="flex:1">${t}</span><i class="ti ti-chevron-right"></i></button>`).join('')}
+      <div class="listitem"><span class="ico" style="background:var(--neutral-bg);color:var(--neutral-fg)"><i class="ti ti-map-pin"></i></span><span style="flex:1">Sede<br><span class="muted small">La asigna un administrador</span></span><span class="small">Sede Centro</span></div></div>
+    <div style="margin:16px 0 8px;font-size:13px;font-weight:500">Apariencia</div>
+    <div class="seg">${[['light', 'Claro'], ['dark', 'Oscuro'], ['system', 'Sistema']].map(([id, l]) => `<button data-theme-set="${id}" class="${S.themePref === id ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <button class="btn b-sec" data-go="login" data-root><i class="ti ti-logout"></i>Cerrar sesión</button></div>`),
+  trayectoria: () => plain(`${head('Mi trayectoria')}<div class="pad">
+    ${[{ n: 'Autonomía digital personal', e: ['Cursando', 'c-info'], nota: '—', asis: S.presente ? '1 de 10 clases' : '0 de 10 clases', auto: S.done.a1 ? 'Bloque 1: ' + S.quiz.ok + '/4' : 'Todavía ninguna', acr: '—' },
+       { n: 'Alfabetización digital inicial', e: ['Aprobado', 'c-ok'], nota: '9', asis: '11 de 12 clases', auto: '6 bloques · promedio 85%', acr: '—', cert: true },
+       { n: 'Redes sociales seguras', e: ['Abandonado', 'c-bad'], nota: '—', asis: '2 de 8 clases', auto: '1 bloque', acr: '—' }].map(c => `
+      <div class="card"><div class="between"><h3 style="font-size:16px">${c.n}</h3><span class="chip ${c.e[1]}">${c.e[0]}</span></div>
+      ${[['Nota', c.nota], ['Asistencia', c.asis], ['Autoevaluaciones', c.auto], ['Acreditaciones', c.acr]].map(([k, v]) => `<div class="between" style="padding:5px 0;font-size:14px"><span class="muted">${k}</span><span>${v}</span></div>`).join('')}
+      ${c.cert ? '<button class="btn b-sec" style="margin-top:8px;padding:9px;font-size:13px" data-go="certificado"><i class="ti ti-certificate"></i>Ver certificado</button>' : ''}</div>`).join('')}
+    ${S.acreditacion ? `<div class="card"><div class="between"><h3 style="font-size:16px">Acreditación · ${S.acreditacion}</h3><span class="chip c-warn">En revisión</span></div><div class="muted" style="margin-top:4px">Competencia: Planillas de cálculo</div></div>` : ''}</div>`),
+  certificados: () => plain(`${head('Certificados')}<div class="pad"><button class="card row" data-go="certificado" style="width:100%;text-align:left;color:var(--text)"><span class="ico" style="background:var(--lime-100);color:#3A4A10"><i class="ti ti-certificate"></i></span><span style="flex:1"><b style="font-weight:500">Alfabetización digital inicial</b><br><span class="muted">UTEC · 28 jun 2026</span></span><i class="ti ti-chevron-right"></i></button>
+    <p class="muted small center">Obtenés un certificado cada vez que aprobás un curso.</p></div>`),
+  certificado: () => plain(`${head('Certificado')}<div class="pad"><div class="cert"><div class="orglogo">UTEC</div>
+    <p style="font-size:13px;margin:18px 0 4px;color:#5D6B4F">certifica que</p><h2 style="font-size:24px">María Fernández</h2><p style="font-size:13px;margin:4px 0 0;color:#5D6B4F">DNI 30.123.456</p>
+    <p style="font-size:14px;margin:8px 0 2px;color:#5D6B4F">aprobó el curso</p><h3 style="font-size:18px">Alfabetización digital inicial</h3>
+    <p style="font-size:13px;color:#5D6B4F;margin:6px 0 22px">Sede Centro · 28 de junio de 2026</p>
+    <div style="display:flex;justify-content:space-around;margin-bottom:20px">${['Firma · Dirección', 'Firma · Docente'].map(f => `<div style="font-size:11px;color:#5D6B4F;border-top:1px solid #1B2B1E;padding-top:4px;width:110px">${f}</div>`).join('')}</div>
+    <p style="font-size:11px;color:#7C866D;margin:0">emitido con <b style="color:#1B2B1E">acadelime</b> · código AC-7F3K-92QD</p></div>
+    <button class="btn b-pri" style="margin-top:16px" data-toast="Se descarga el PDF del certificado"><i class="ti ti-download"></i>Descargar PDF</button>
+    <button class="btn b-gho" data-toast="Se copia el enlace de verificación"><i class="ti ti-link"></i>Copiar enlace de verificación</button></div>`),
+  tienda: () => { const t = S.tiendaTab; const seg = `<div class="seg">${[['tienda', 'Tienda'], ['mis', 'Mis canjes']].map(([id, l]) => `<button data-ttab="${id}" class="${t === id ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+    const saldo = `<div class="card" style="background:var(--lime-500);border-color:var(--lime-500);color:#1B2B1E"><div class="small" style="color:#3A4A10">Tus limes</div><div class="display" style="font-size:28px">${COIN(26)} ${S.xp}</div><div class="small" style="color:#3A4A10;margin-top:4px">Los ganás completando temas, resúmenes, prácticas y autoevaluaciones. Sirven para todos tus cursos.</div></div>`;
+    let body;
+    if (t === 'tienda') body = TIENDA.map(it => { const own = S.canjes.includes(it.id), falta = it.p - S.xp, lock = !own && falta > 0;
+      return `<div class="card" style="${lock ? 'background:var(--locked-bg);border-color:var(--locked-bg)' : ''}"><div class="row" style="align-items:flex-start"><span class="ico" style="${lock ? 'background:var(--surface);color:var(--locked-fg)' : it.tipo === 'Video' ? 'background:var(--info-bg);color:var(--info-fg)' : 'background:var(--accent-50);color:var(--accent-text)'}"><i class="ti ${lock ? 'ti-lock' : it.ic}"></i></span>
+        <div style="flex:1"><span class="chip ${it.tipo === 'Video' ? 'c-info' : 'c-acc'}" style="font-size:11px">${it.tipo}</span><h3 style="font-size:15px;margin-top:6px;${lock ? 'color:var(--text-2)' : ''}">${it.t}</h3><div class="muted" style="margin-top:2px">${it.d}</div><div class="small muted" style="margin-top:4px"><i class="ti ti-user"></i> ${it.prof}</div></div></div>
+        <div style="margin-top:12px">${own ? '<button class="btn b-sec" style="padding:9px;font-size:13px" data-toast="Abre el material canjeado"><i class="ti ti-check"></i>Canjeado · abrir</button>'
+          : lock ? `<div class="between"><span style="font-weight:500">${COIN(16)} ${it.p}</span><span class="small muted"><i class="ti ti-lock"></i> Te faltan ${falta} limes</span></div>`
+          : `<button class="btn b-pri" style="padding:10px;font-size:14px" data-go="canje" data-item="${it.id}">Canjear por ${COIN(16)} ${it.p}</button>`}</div></div>`; }).join('');
+    else body = S.canjes.length ? S.canjes.map(id => { const it = TIENDA.find(x => x.id === id); return `<div class="card row"><span class="ico" style="background:var(--lime-100);color:#3A4A10"><i class="ti ${it.ic}"></i></span><span style="flex:1"><b style="font-weight:500">${it.t}</b><br><span class="muted small">${it.tipo} · ${it.p} limes</span></span><button class="btn b-sec" style="width:auto;padding:8px 12px;font-size:13px" data-toast="Abre el material canjeado">Abrir</button></div>`; }).join('')
+      : `<div class="center" style="padding:30px 10px"><div class="big" style="background:var(--lime-100);color:#3A4A10;width:72px;height:72px;font-size:34px"><i class="ti ti-building-store"></i></div><h3 style="font-size:17px">Tu primer canje te espera</h3><p class="muted">Lo que canjees queda acá para abrirlo cuando quieras.</p><button class="btn b-pri" data-ttab="tienda">Ver la tienda</button></div>`;
+    return plain(`${head('Tienda de limes')}<div class="pad">${saldo}${seg}${body}</div>`); },
+  canje: () => { const it = TIENDA.find(x => x.id === S.canjeId) || TIENDA[0], queda = S.xp - it.p; return `<div style="flex:1;background:rgba(10,17,11,.55);display:flex;align-items:flex-end">
+    <div style="background:var(--paper);width:100%;border-radius:24px 24px 0 0;padding:22px 16px 26px"><div style="width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 18px"></div>
+    <span class="chip ${it.tipo === 'Video' ? 'c-info' : 'c-acc'}">${it.tipo}</span><h2 style="font-size:21px;margin:8px 0 4px">${it.t}</h2><p class="muted" style="margin:0 0 4px">${it.d}</p><p class="small muted" style="margin:0 0 16px"><i class="ti ti-user"></i> Material de ${it.prof} · acceso para siempre</p>
+    <div class="card">${[['Precio', `${COIN(16)} ${it.p}`], ['Tus limes', `${COIN(16)} ${S.xp}`], ['Te quedan', `${COIN(16)} ${queda}`]].map(([k, v], i) => `<div class="between" style="padding:5px 0;${i === 2 ? 'border-top:1px solid var(--line);margin-top:4px;padding-top:9px;font-weight:500' : ''}"><span class="${i === 2 ? '' : 'muted'}">${k}</span><span>${v}</span></div>`).join('')}</div>
+    ${queda < 0 ? `<div class="card c-warn" style="border:none;font-size:14px"><i class="ti ti-lock"></i> Te faltan ${-queda} limes para canjear esto.</div><button class="btn b-sec" data-back>Volver a la tienda</button>`
+      : `<button class="btn b-pri" data-canjear="${it.id}">Canjear</button><button class="btn b-gho" style="margin-top:4px" data-back>Cancelar</button>`}</div></div>`; },
+  canjeOk: () => { const it = TIENDA.find(x => x.id === S.canjeId) || TIENDA[0]; return plain(`<div class="pad center" style="padding-top:90px"><div class="big" style="background:var(--lime-500);color:#1B2B1E"><i class="ti ${it.ic}"></i></div>
+    <h2 style="font-size:24px">Ya es tuyo</h2><p class="muted">${it.t}<br>Te quedan ${S.xp} limes.</p>
+    <button class="btn b-pri" style="margin-top:20px" data-toast="Abre el material canjeado">Abrir ahora</button>
+    <button class="btn b-gho" data-go="tienda" data-ttab="mis" data-root>Ver mis canjes</button></div>`); },
+  notificaciones: () => { S.unread = 0; return plain(`${head('Notificaciones')}<div class="pad" style="padding-top:4px"><div class="list">
+    ${[['ti-calendar', 'c-ok', 'Hoy tenés Clase 01 a las 18:00', 'Sede Centro · hace 2 h', 'clase'], ['ti-door-enter', 'c-info', 'Abrió la inscripción a Planillas de cálculo', 'Cierra el 30 nov · ayer', 'curso'], ['ti-circle-x', 'c-neu', 'Tu pedido a Redes en casa fue rechazado', 'Cupo completo · 3 nov', 'pedidos'], ['ti-certificate', 'c-ok', 'Obtuviste el certificado de Alfabetización digital inicial', '28 jun', 'certificado']].map(([ic, c, t, s, g]) => `<button ${g === 'pedidos' ? 'data-go="cursos" data-tab="pedidos"' : g === 'curso' ? 'data-go="curso" data-id="planillas"' : `data-go="${g}"`}><span class="ico ${c}"><i class="ti ${ic}"></i></span><span style="flex:1;font-size:14px">${t}<br><span class="muted small">${s}</span></span></button>`).join('')}</div></div>`); }
+};
+const TABS = ['inicio', 'cursos', 'calendario', 'perfil'];
+
+function render() {
+  document.getElementById('screen').innerHTML = V[S.screen]();
+  const sc = document.querySelector('#screen .scroll'); if (sc) sc.scrollTop = 0;
+}
+function go(screen, opts = {}) {
+  if (screen === 'aprender') S.tab = 'inicio';
+  if (opts.root || TABS.includes(screen)) { S.history = screen === 'aprender' ? ['inicio'] : []; } else if (S.screen !== screen) S.history.push(S.screen);
+  if (TABS.includes(screen)) S.tab = screen;
+  S.screen = screen; render();
+}
+function back() { S.screen = S.history.pop() || S.tab; render(); }
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.style.display = 'block'; clearTimeout(toast.h); toast.h = setTimeout(() => t.style.display = 'none', 2200); }
+function complete(id, titulo, sub) {
+  const n = ALL.find(x => x.id === id); let xp = 0;
+  if (!S.done[id]) { S.done[id] = true; xp = XP[n.tipo]; S.xp += xp; }
+  S.logro = { titulo, sub: xp ? sub : 'Ya lo habías completado: los limes se ganan una sola vez.', xp };
+  S.history = []; S.screen = 'logro'; render();
+}
+function setTheme(pref) {
+  S.themePref = pref;
+  if (pref === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = pref;
+}
+
+document.addEventListener('input', e => { const er = e.target.closest('.field') && document.querySelector('#rec-err,#nc-err'); if (er) er.textContent = ''; });
+document.addEventListener('click', e => {
+  const el = e.target.closest('button,[data-go],[data-tabgo],input');
+  if (!el) return;
+  const d = el.dataset;
+  if (d.tab) S.cursosTab = d.tab;
+  if (d.id) S.curso = d.id;
+  if (d.item) S.canjeId = d.item;
+  if (d.ttab) { S.tiendaTab = d.ttab; if (!d.go) { render(); return; } }
+  if (d.go) return go(d.go, { root: 'root' in d });
+  if (d.tabgo) return go(d.tabgo);
+  if ('back' in d) return back();
+  if (d.toast) return toast(d.toast);
+  if ('locked' in d) return toast('Se desbloquea al completar el nodo anterior');
+  if (d.node) {
+    const n = ALL.find(x => x.id === d.node);
+    if (n.tipo === 'tema') { S.temaPaso = 0; S.temaId = n.id; }
+    if (n.tipo === 'autoeval') S.quiz = { i: 0, sel: null, checked: false, ok: 0 };
+    return go(n.tipo);
+  }
+  if ('temanext' in d) { if (S.temaPaso < TEMA.length - 1) { S.temaPaso++; render(); } else complete(S.temaId || 't3', 'Tema completado', 'Unidades de medida'); return; }
+  if (d.pcheck !== undefined) { S.practica[d.pcheck] = el.checked; render(); return; }
+  if (d.need) return toast(d.need);
+  if (d.complete) return complete(d.complete, d.complete === 'r1' ? 'Resumen repasado' : 'Práctica terminada', d.complete === 'r1' ? 'Ya estás listo para la autoevaluación' : 'Ficha técnica de mi PC');
+  if (d.opt !== undefined) { S.quiz.sel = +d.opt; render(); return; }
+  if ('qcheck' in d) { if (S.quiz.sel === null) { document.getElementById('qerr').textContent = 'Elegí una respuesta primero'; return; } S.quiz.checked = true; if (S.quiz.sel === QUIZ[S.quiz.i].c) S.quiz.ok++; render(); return; }
+  if ('qnext' in d) {
+    if (S.quiz.i < QUIZ.length - 1) { S.quiz.i++; S.quiz.sel = null; S.quiz.checked = false; render(); }
+    else { if (!S.done.a1) { S.done.a1 = true; S.xp += Math.round(XP.autoeval * S.quiz.ok / QUIZ.length); } S.history = []; S.screen = 'autoevalRes'; render(); }
+    return;
+  }
+  if ('retry' in d) { S.quiz = { i: 0, sel: null, checked: false, ok: 0 }; S.history = []; S.screen = 'autoeval'; render(); return; }
+  if (d.ctab) { S.cursosTab = d.ctab; render(); return; }
+  if ('pedir' in d) { S.pedidoPlanillas = true; S.history = []; S.screen = 'pedidoOk'; render(); return; }
+  if (d.acsend) { S.acreditacion = d.acsend; S.history = []; S.screen = 'acOk'; render(); return; }
+  if (d.canjear) { const it = TIENDA.find(x => x.id === d.canjear); if (S.xp >= it.p && !S.canjes.includes(it.id)) { S.xp -= it.p; S.canjes.push(it.id); } S.history = []; S.screen = 'canjeOk'; render(); return; }
+  if ('recsend' in d) { const v = document.getElementById('rec-mail').value.trim(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { document.getElementById('rec-err').textContent = 'Escribí un correo válido'; return; } return go('olvideEnviado'); }
+  if ('newpass' in d) { const a = document.getElementById('nc1').value, b = document.getElementById('nc2').value, er = document.getElementById('nc-err');
+    if (a.length < 8) { er.textContent = 'La contraseña necesita al menos 8 caracteres'; return; }
+    if (a !== b) { er.textContent = 'Las contraseñas no coinciden'; return; }
+    S.history = []; S.screen = 'claveOk'; render(); return; }
+  if ('scan' in d) { S.presente = true; S.history = []; S.screen = 'qrOk'; render(); return; }
+  if (d.themeSet) { setTheme(d.themeSet); render(); return; }
+});
+const h = location.hash.slice(1); if (h && V[h]) go(h, { root: true }); else render();
+
+paintIcons();
+new MutationObserver(() => paintIcons(document.getElementById('phone'))).observe(document.getElementById('phone'), { childList: true, subtree: true });
+</script>
